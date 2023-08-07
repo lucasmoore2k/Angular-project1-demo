@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { RecipeModel } from './recipe.model';
 
 @Component({
@@ -7,11 +7,16 @@ import { RecipeModel } from './recipe.model';
   styleUrls: ['./recipelist.component.css']
 })
 export class RecipelistComponent {
+  @Output() recipeWasSelected = new EventEmitter<RecipeModel>();
   recipes: RecipeModel[] = [
     new RecipeModel('Fettuccine', 'Recipe of fettuccine with tomatoes', 'https://goodoldvegan.com/wp-content/uploads/2021/08/Vegan-Fettucine-Alfredo.jpg')
   ];
 
   constructor(){
 
+  }
+
+  onRecipeSelected(recipe: RecipeModel){
+    this.recipeWasSelected.emit(recipe)
   }
 }
