@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RecipeModel } from '../recipe.model';
+import { RecipeServices } from 'src/app/services/recipe.services';
 
 @Component({
   selector: 'app-recipeitem',
@@ -7,18 +8,18 @@ import { RecipeModel } from '../recipe.model';
   styleUrls: ['./recipeitem.component.css']
 })
 export class RecipeitemComponent implements OnInit {
-  @Input() recipe: RecipeModel;
-  @Output() recipeSelected = new EventEmitter<void>();
+  @Input() recipe: RecipeModel =  new RecipeModel('', '', '');;
 
-  constructor(){
-    this.recipe = new RecipeModel('Fettuccine', 'Recipe of fettuccine with tomatoes', 'https://goodoldvegan.com/wp-content/uploads/2021/08/Vegan-Fettucine-Alfredo.jpg')
+
+  constructor(private recipeService: RecipeServices){
   }
 
   ngOnInit(): void {
-    
+    this.recipeService.getRecipes()
   }
 
-  onSelected(){
-    this.recipeSelected.emit()
+  onSelected(recipe: RecipeModel){
+    this.recipeService.onSelect(recipe)
   }
+
 }

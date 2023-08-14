@@ -1,19 +1,22 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { RecipeModel } from './recipe.model';
+import { RecipeServices } from 'src/app/services/recipe.services';
 
 @Component({
   selector: 'app-recipelist',
   templateUrl: './recipelist.component.html',
   styleUrls: ['./recipelist.component.css']
 })
-export class RecipelistComponent {
+
+export class RecipelistComponent implements OnInit {
   @Output() recipeWasSelected = new EventEmitter<RecipeModel>();
-  recipes: RecipeModel[] = [
-    new RecipeModel('Fettuccine', 'Recipe of fettuccine with tomatoes', 'https://goodoldvegan.com/wp-content/uploads/2021/08/Vegan-Fettucine-Alfredo.jpg')
-  ];
+  recipes: RecipeModel[] = [];
 
-  constructor(){
+  constructor(private recipeServices: RecipeServices){
+  }
 
+  ngOnInit(){
+    this.recipes = this.recipeServices.getRecipes()
   }
 
   onRecipeSelected(recipe: RecipeModel){
